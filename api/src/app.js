@@ -1,5 +1,7 @@
 const express = require("express");
 const morgan = require('morgan');
+const mainRouter = require('./routes/mainRouter')
+
 
 const app = express();
 
@@ -20,9 +22,8 @@ const app = express();
 
 app.use(express.json())
 app.use(morgan('dev'))
-
-
- //* Rutas
+//* Rutas
+app.use(mainRouter)
 
 
 
