@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { getDogsApiHandler } = require('../handlers/DogsHandler');
+const { getDogsApiHandler } = require('../handlers/dogsHandler');
 
 const dogRouter = Router();
 

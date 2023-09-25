@@ -22,9 +22,8 @@ const app = express();
 
 app.use(express.json())
 app.use(morgan('dev'))
-//* Rutas
+// ! Rutas
 app.use(mainRouter)
-
 
 
  module.exports =  app;

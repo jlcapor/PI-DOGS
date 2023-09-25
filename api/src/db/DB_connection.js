@@ -9,6 +9,9 @@ const database = new Sequelize(
 )
 
 
+const { Dog, Temperament } = sequelize.models;
+
+
 module.exports = {
     ...database.models,
     database
