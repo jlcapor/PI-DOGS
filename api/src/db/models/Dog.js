@@ -10,16 +10,17 @@ module.exports = (database) => {
       defaultValue:DataTypes.UUIDV4,
     },
     name: {
-      type: DataTypes.STRING,
-      allowNull: false,
+      type:DataTypes.STRING,
+      allowNull:false,
+      unique:true
     },
 
     height:{
-        type: DataTypes.JSON,
+        type: DataTypes.STRING,
         allowNull: false
     },
     weight: {
-        type: DataTypes.JSON,
+        type: DataTypes.STRING,
         allowNull: false
     },
     life_span:{
@@ -30,6 +31,11 @@ module.exports = (database) => {
         type : DataTypes.STRING,
         allowNull: false,
     },
+
+    created:{
+      type:DataTypes.BOOLEAN,
+      defaultValue: true
+    }
   },
     {timestamps: false}
   );

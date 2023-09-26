@@ -1,11 +1,18 @@
-const express = require("express");
+const express = require('express');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
 const morgan = require('morgan');
-const mainRouter = require('./routes/mainRouter')
+const routes = require('./routes/index.js');
 
 
 const app = express();
 
- app.use((req, res, next) => {
+app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(cookieParser());
+app.use(morgan('dev'));
+
+app.use((req, res, next) => {
    res.header('Access-Control-Allow-Origin', '*');
    res.header('Access-Control-Allow-Credentials', 'true');
    res.header(
@@ -21,9 +28,7 @@ const app = express();
 
 
 app.use(express.json())
-app.use(morgan('dev'))
-// ! Rutas
-app.use(mainRouter)
+app.use(routes)
 
 
- module.exports =  app;
+module.exports =  app;
