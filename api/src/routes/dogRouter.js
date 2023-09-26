@@ -1,8 +1,8 @@
 const { Router } = require('express');
 const {   
     createDogBreedHandler,
-    getDogBreedDetailHandler,
-    getAllDogBreedsHandler
+    getAllDogBreedsHandler,
+    getDogBreedDetailHandler
 } = require('../handlers/dogsHandler');
 
 const dogRouter = Router();

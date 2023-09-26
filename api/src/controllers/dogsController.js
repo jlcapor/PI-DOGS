@@ -8,22 +8,25 @@ const createDogBreedDB = async ({name, height, weight, life_span, image, tempera
     const dogCreated = await Dog.create({name, height, weight, life_span, image});
     dogCreated.addTemperament(temperament);
     return dogCreated;
-    
 }
 
 
 const getDogBreedByIdAPI = async(id) =>{
-    const {data} = await axios.get(`${URL_BASE}/${id}?api_key=${API_KEY}`);
-    const dogBreedAPI = {
-        id: data.id,
-        name: data.name,
-        height: data.height.metric,
-        weight: data.weight.metric,
-        life_span: data.life_span,
-        temperament: data.temperament,
-        image: data.reference_image_id,
-    }
-    return dogBreedAPI
+    const {data} = await axios.get(`${URL_BASE}/?api_key=${API_KEY}`);
+    
+    const dogBreedFilter = data.filter(dog => dog.id == id)
+    .map((dogBreed)=>{
+        return{
+            id: dogBreed.id,
+            name: dogBreed.name,
+            height: dogBreed.height.metric,
+            weight: dogBreed.weight.metric,
+            life_span: dogBreed.life_span,
+            temperament: dogBreed.temperament,
+            image: dogBreed.image.url,
+        }
+    })
+    return dogBreedFilter[0]
 }
 
 
@@ -40,6 +43,7 @@ const  getDogBreedByIdBD = async(id) =>{
             }
         }
     })
+    
     dogBreedBD = dogBreedBD.map(dogBreed => {
         return {
          id: dogBreed.id,
@@ -52,7 +56,7 @@ const  getDogBreedByIdBD = async(id) =>{
         }
      })
      
-    return  dogBreedBD
+    return  dogBreedBD[0]
 }
 
 
@@ -121,7 +125,7 @@ const getDogBreedsByName = async(name) =>{
          name: dogBD.name,
          height: dogBD.height,
          weight: dogBD.weight,
-         lifeSpan: dogBD.life_span,
+         life_span: dogBD.life_span,
          temperament: dogBD.Temperaments.map(elemento => elemento.name).join(', '),    //.toString()
          image: dogBD.image,
          created: dogBD.created

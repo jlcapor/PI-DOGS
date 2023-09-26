@@ -1,7 +1,7 @@
 const { 
     createDogBreedDB,
-    getDogBreedByIdAPI,
     getDogBreedByIdBD,
+    getDogBreedByIdAPI,
     getAllDogBreeds,
     getDogBreedsByName,
 } = require('../controllers/dogsController');
@@ -39,7 +39,6 @@ const getDogBreedDetailHandler = async(req, res) =>{
 
 const createDogBreedHandler = async(req, res)=>{
     const {name, height, weight, life_span, image, temperament} = req.body
-
     try {
         const dogCreated = await createDogBreedDB({name, height, weight, life_span, image, temperament})
         res.status(200).json(dogCreated);
