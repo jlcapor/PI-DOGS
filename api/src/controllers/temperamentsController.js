@@ -26,8 +26,8 @@ const createTemperament = async(temperaments) =>{
     })
   );
 
-    const busquedaDb = await Temperament.findAll();
-    return busquedaDb
+    const searchDb = await Temperament.findAll();
+    return searchDb
 }
 
 module.exports = {
