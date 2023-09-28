@@ -3,17 +3,11 @@ const {
     createTemperament
 } = require('../controllers/temperamentsController');
 
-const getAllTemperamentsHandler = (req , res) =>{
+const getAllTemperamentsHandler = async(req , res) =>{
     try {
-        
-    } catch (error) {
-        res.status(400).json({error: error.message})
-    }
-}
-
-const createTemperamentHandler = (req , res) =>{
-    try {
-        
+        const temperaments = await getAllTemperaments();
+        const createTemperaments = await createTemperament(temperaments)
+        res.status(200).json(createTemperaments)
     } catch (error) {
         res.status(400).json({error: error.message})
     }
@@ -22,5 +16,4 @@ const createTemperamentHandler = (req , res) =>{
 
 module.exports = {
     getAllTemperamentsHandler,
-    createTemperamentHandler
 }

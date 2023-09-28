@@ -1,22 +1,31 @@
 const { 
     createDogBreedDB,
-    getDogBreedByIdBD,
     getDogBreedByIdAPI,
-    getAllDogBreeds,
-    getDogBreedsByName,
+    getDogBreedByIdBD,
+    getAllDogBreedsAPI,
+    getAllDogBreedsBD,
+    searchDogBreedsInAPI,
+    searchDogBreedsInInDB,
 } = require('../controllers/dogsController');
 
 
 const getAllDogBreedsHandler = async(req , res)=>{
     const { name } = req.query;
-    
     try {
         if(name){
-            const dogBreedName = await getDogBreedsByName(name);
-            return res.status(200).json(dogBreedName)
+            [apiResults, dbResults] = await Promise.all([
+                searchDogBreedsInAPI(name),
+                searchDogBreedsInInDB(name),
+            ]);
+            const searchDogBreeds = [...apiResults, ...(dbResults || [])];
+            res.status(200).json(searchDogBreeds)
         }else{
-            const response = await getAllDogBreeds();
-            return res.status(200).json(response)
+            const [dogBreedsBD, dogBreedsAPI] = await Promise.all([
+                getAllDogBreedsBD(),
+                getAllDogBreedsAPI()
+            ])
+            const allDogBreeds = [...dogBreedsBD, ...dogBreedsAPI]
+            res.status(200).json(allDogBreeds)
         }
     } catch (error) {
         res.status(400).json({error: error.message})

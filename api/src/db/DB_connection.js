@@ -1,7 +1,7 @@
 require("dotenv").config();
 const { Sequelize } = require('sequelize');
-const DogModel = require('./models/Dog');
-const TemperamentModel = require('./models/Temperament')
+const ModelDog = require('./models/Dog');
+const ModelTemperament = require('./models/Temperament')
 
 
 const {DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, BDD} = process.env
@@ -14,8 +14,8 @@ const database = new Sequelize(
 
 
 // DEFINICION DE MODELOS A USAR
-DogModel(database);
-TemperamentModel(database);
+ModelDog(database);
+ModelTemperament(database);
 
 //Crear las relaciones // asociaciones
 const {Dog, Temperament} = database.models

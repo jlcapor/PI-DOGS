@@ -5,11 +5,30 @@ const {URL_BASE, API_KEY} = process.env;
 
 
 const getAllTemperaments = async () => {
-    const {data} = await axios.get(`${URL_BASE}/?api_key=${API_KEY}`);
+    const response = await axios.get(`${URL_BASE}/?api_key=${API_KEY}`);
+    const infoTemperamentApi = response.data?.map ((temp) => {
+        const temperament = (temp.temperament || '').trim();
+        return temperament.split(",").map(t => t.trim()).filter(Boolean); 
+    });
+
+    const orderTemperament = infoTemperamentApi.flat().sort();
+    const temperaments = [...new Set(orderTemperament)];
+    return temperaments
 }
 
 
-const createTemperament = async() =>{}
+const createTemperament = async(temperaments) =>{
+    await Promise.all(
+    temperaments.map(async (dog) => { 
+      await Temperament.findOrCreate({
+        where: { name: dog },
+      });
+    })
+  );
+
+    const busquedaDb = await Temperament.findAll();
+    return busquedaDb
+}
 
 module.exports = {
     getAllTemperaments,
