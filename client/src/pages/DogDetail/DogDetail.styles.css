@@ -1,0 +1,243 @@
+.detail-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+.card-detail {
+  display: flex;
+  flex-direction: column;
+  margin: 30px auto;
+  align-items: center;
+  border-radius: 10px;
+  height: auto;
+  width: 80vw;
+  /* box-shadow: #3f404165 1px 1px 10px; */
+  justify-content: center;
+}
+
+
+
+
+/*  image container inside each card  */
+.wrap-image {
+  /* background-color: #0dd7e9; */
+  width: 90vw;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px 10px 0 0;
+  padding-bottom: 20px;
+  position: relative;
+}
+
+.wrap-image a {
+  font-size: 0.8rem;
+  text-decoration: none;
+  color: #3f4041;
+  padding: 5px 15px;
+}
+
+.wrap-image a:hover {
+  background-color: #fafafa;
+  border-radius: 10px;
+}
+
+
+
+/* image specific */
+.card-detail img {
+  display: block;
+  text-align: center;
+  width: 80vw;
+  height: auto;
+  margin: 20px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* text section on the right hand side of each card */
+
+.description {
+  width: 100%;
+  padding-left: 20px;
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.description p {
+  padding: 20px;
+  font-size: 0.9rem;
+  line-height: 1.5rem;
+}
+
+.description>div {
+  width: 100%;
+  height: 5px;
+  background-color: #acabab;
+  margin-top: 3px;
+  border-radius: 2px;
+}
+
+.button-container {
+  display: flex;
+  gap: 10px;
+  
+}
+
+.delete-button {
+  background-color: #ff0000;
+  color: #fff;
+  padding: 8px 12px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.update-button {
+  background-color: #33aab7;
+  color: #fff;
+  padding: 8px 12px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.delete-button:hover {
+  background-color: #cc0000;
+}
+
+.update-button:hover {
+  background-color: #0056b3;
+  /* Cambia el color al pasar el ratón */
+}
+
+
+/*  media queries*/
+
+
+@media (min-width: 768px) {
+  h1 {
+    font-size: 2.5rem;
+  }
+
+  h3 {
+    font-size: 2rem;
+  }
+
+  .description p {
+    font-size: 1.1rem;
+  }
+}
+
+
+@media (min-width: 1300px) {
+  .card-detail {
+    flex-direction: row;
+    margin: 30px;
+    /* background-color: #fafafa; */
+    align-items: center;
+    border-radius: 10px;
+    height: 600px;
+    max-width: 1400px;
+  }
+
+  .wrap-image {
+    /* background-color: #0dd7e9; */
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px 0 0 10px;
+  }
+
+  .wrap-image a {
+    text-decoration: none;
+    font-size: 0.7rem;
+    /* color: #3f4041; */
+    padding: 5px 10px;
+    border-radius: 5px;
+    width: 90%;
+    text-align: center;
+  }
+
+
+  .wrap-image img {
+    display: block;
+    text-align: center;
+    width: 550px;
+    height: auto;
+    margin: 20px;
+    border-radius: 10px;
+  }
+
+
+  .description {
+    padding-left: 20px;
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  .description p {
+    padding: 20px;
+    font-size: 1.2rem;
+  }
+
+  .description>div {
+    width: 100%;
+    height: 5px;
+    background-color: #acabab;
+    margin-top: 3px;
+    border-radius: 2px;
+  }
+
+  h3 {
+    font-size: 2rem;
+  }
+
+  h4 {
+    width: 100%;
+    background-color: #ecdbdb;
+    padding: 10px;
+    border-radius: 5px 0px 0px 5px;
+
+  }
+
+  .description ul li, small {
+    list-style: none;
+    margin-top: 10px;
+    padding: 0;
+    padding-left: 15px;
+    margin-bottom: 10px;
+  }
+
+  .description small a {
+    /* background-color: #cee9f5; */
+    text-decoration: none;
+    padding: 5px;
+    border-radius: 5px;
+    color: #3f4041;
+    margin-bottom: 10px;
+  }
+
+  .description small a:active {
+    transform: scale(0.9);
+    margin-bottom: 10px;
+  }
+}

@@ -1,0 +1,27 @@
+/* En tu archivo styles.css */
+
+.filter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  }
+  
+  .filter-label {
+    margin-right: 16px; /* Ajusta el margen derecho según tus preferencias */
+  }
+ 
+  
+  .filter select {
+    margin-right: 10px; /* Ajusta el margen derecho según tus preferencias */
+    padding: 4px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    max-width: 200px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  /* Media query para pantallas más pequeñas... */
+  

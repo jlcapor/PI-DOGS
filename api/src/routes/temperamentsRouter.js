@@ -5,6 +5,6 @@ const {
 
 const temperamentsRouter = Router();
 
-temperamentsRouter.get('/get', getAllTemperamentsHandler);
+temperamentsRouter.get('/', getAllTemperamentsHandler);
 
 module.exports = temperamentsRouter;

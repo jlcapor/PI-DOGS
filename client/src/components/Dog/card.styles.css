@@ -1,0 +1,95 @@
+/* Card.css */
+
+.card {
+  width: 300px;
+  max-height: 420px;
+  overflow: hidden;
+  position: relative;
+  display: inline-block;
+  background: white;
+  padding: 9px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  margin: 5px;
+  text-align: center;
+  display: grid;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease-in-out;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  /* Efecto de levantamiento al hacer hover */
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.4);
+  /* Sombra más pronunciada al hacer hover */
+}
+
+.image-container {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+
+.image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Ajusta para que la imagen se vea completa */
+  object-position: 50% 20%;
+}
+
+.card-content {
+  padding: 10px;
+}
+
+.card-content h2 {
+  color: #111010;
+  font-size: 1.2em;
+  /* Reducir el tamaño de la letra */
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.card-content p {
+  font-size: 16px;
+  color: #111010;
+  padding: 3px;
+}
+
+.card-content span {
+  color: rgb(0, 0, 0);
+  padding: 7px;
+  font-weight: bold;
+  font-family: 'Arial', sans-serif;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  /* Alinea el botón al final de su contenedor */
+}
+
+.delete-button {
+  font-size: 0;
+  padding: 0;
+  top: 12px;
+  bottom: 12px;
+  border: none;
+  cursor: pointer;
+}
+
+.favorite-heart {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 1.5em;
+  color: #ff7b00;
+}
+
+.favorite {
+  background-color: #fff;
+  /* Cambia el color del fondo cuando es favorito, si lo deseas */
+}

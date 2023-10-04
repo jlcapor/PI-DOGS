@@ -1,1 +1,0 @@
-export { default as LadingPage } from './LadingPage';

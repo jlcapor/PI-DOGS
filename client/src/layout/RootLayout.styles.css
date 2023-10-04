@@ -1,0 +1,11 @@
+.container {
+    display: flex;
+    padding: 12px;
+  }
+  
+  .main-container {
+    flex: 1;
+    padding: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+  }

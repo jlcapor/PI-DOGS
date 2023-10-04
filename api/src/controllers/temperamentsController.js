@@ -14,6 +14,7 @@ const getAllTemperaments = async () => {
     const orderTemperament = infoTemperamentApi.flat().sort();
     const temperaments = [...new Set(orderTemperament)];
     return temperaments
+  
 }
 
 
