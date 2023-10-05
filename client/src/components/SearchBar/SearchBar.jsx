@@ -27,6 +27,4 @@ const SearchBar = ({onSearch}) => {
 		</div>
 	);
 };
-
-// <button className="search-button">Buscar</button>
 export default SearchBar;

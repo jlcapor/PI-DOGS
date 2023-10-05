@@ -17,7 +17,7 @@ const database = new Sequelize(
 ModelDog(database);
 ModelTemperament(database);
 
-//Crear las relaciones // asociaciones
+
 const {Dog, Temperament} = database.models
 
 

@@ -9,7 +9,7 @@ const TemperamentList = ({temperaments, deleteTemperament}) => {
 				{
 					temperaments.length ? 
 					temperaments.map(temperament => (
-						<li>
+						<li key={temperament.id}>
 							<Temperament 
 								key={temperament.id}
 								temperament={temperament}

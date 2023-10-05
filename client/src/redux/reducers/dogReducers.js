@@ -17,7 +17,9 @@ import {
 const initialState ={
     allDogs:[],
     dogsCopy: [],
-    dogBreedDetail: {}
+    dogBreedDetail:{},
+    error: null,
+    loading: false, 
 }
 
 const dogReducer = (state = initialState , action) => {
@@ -71,7 +73,7 @@ const dogReducer = (state = initialState , action) => {
 
             return {
                 ...state,
-                allDogs: filterTemperament
+                allDogs: [...filterTemperament]
             }
 
         case ORDER_FOR_NAME_ASC:

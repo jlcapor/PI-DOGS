@@ -16,3 +16,8 @@ export const FILTER_CREATE = 'FILTER_CREATE';
 export const RESET = 'RESET';
 
 
+export const FETCH_DOGS_REQUEST = 'FETCH_DOGS_REQUEST';
+export const FETCH_DOGS_SUCCESS = 'FETCH_DOGS_SUCCESS';
+export const FETCH_DOGS_FAILURE = 'FETCH_DOGS_FAILURE';
+
+

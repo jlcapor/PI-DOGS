@@ -37,8 +37,8 @@
 
 .navbar a.current,
 .navbar a:hover {
-  color: #33aab7;
-  font-weight: bold;
+    color: #33aab7;
+    font-weight: bold;
 }
 
 .nav-links li {
@@ -57,4 +57,20 @@
     margin: 0;
     display: flex;
     text-transform: uppercase;
+}
+
+.botonLink {
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: #33aab7;
+    color: #fff;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.botonLink:hover {
+    background-color: #33aab7;
 }

@@ -17,11 +17,8 @@ import Pagination from '../../components/Pagination/Pagination';
 import Filter from './components/Filter/Filter';
 import clienteAxios from '../../config/clienteAxios';
 import Order from './components/Order/Order';
-import IconoNewCharacter from '../../img/new-character.svg'
-import { useNavigate } from 'react-router-dom';
 
 const HomePage = () => {
-	const navigate = useNavigate();
 	const dispatch  = useDispatch();
 	const allDogs = useSelector((state) => state.allDogs);
 	const [temperaments, setTemperaments] = useState ([])
@@ -62,6 +59,7 @@ const HomePage = () => {
 
 	const handleFilterTemperament = (event) =>{
 		dispatch(filterByTemperament(event.target.value))
+		setCurrentPage(1);
 	}
 
 	const handleFilterBdOrApi = (event) => {
@@ -110,6 +108,7 @@ const HomePage = () => {
 	}
 
 	const handlerDelete = (id) =>{
+
 	}
 
 	const newDogBreed = () => navigate("/dogs/new-dog");
@@ -125,23 +124,16 @@ const HomePage = () => {
 			   handleFilterTemperament = {handleFilterTemperament}
 			   handleFilterBdOrApi={handleFilterBdOrApi}
 			/>
+			<DogList 
+			  currentItems={currentItems}
+			  handlerDelete={handlerDelete}
+			/>
 			<Pagination 
 			  itemsPerPage={itemsPerPage}
 			  totalItems={allDogs.length}
 			  paginateHandler={paginateHandler}
 			  currentPage={currentPage}
 			/>
-			<DogList 
-			  currentItems={currentItems}
-			  handlerDelete={handlerDelete}
-			/>
-			<div className='new-carcater'>
-				<img 
-					src={IconoNewCharacter} 
-					alt='icono nuevo gasto'
-					onClick={newDogBreed}
-				/>
-			</div>
 			
 		</div>
 	);

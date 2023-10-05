@@ -15,6 +15,8 @@ import {
 import clienteAxios from "../../config/clienteAxios";
 
 
+
+
 export const getDogBreeds = () => {
     const endpoint = 'http://localhost:3001/dogs';
     return (dispatch) => {
@@ -28,11 +30,12 @@ export const getDogBreeds = () => {
 }
 
 export const newDogBreed = (dogBreed) => {
+    console.log(dogBreed)
     return  async (dispatch) =>{
-        const response = await clienteAxios.post('/dogs', dogBreed);
+        const {data} = await clienteAxios.post('/dogs', dogBreed);
         return dispatch({
             type: NEW_DOG_BREED,
-            payload : response.data
+            payload : data
         })
     }
 }

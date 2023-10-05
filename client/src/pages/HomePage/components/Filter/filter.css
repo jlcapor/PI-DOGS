@@ -5,23 +5,40 @@
   align-items: center;
   justify-content: center;
   margin-bottom: 10px;
+}
+
+.filter-header {
+  margin-bottom: 8px; /* Ajusta el margen derecho según tus preferencias */
+}
+
+.filter-label {
+  margin-right: 13px; /* Ajusta el margen derecho según tus preferencias */
+}
+
+.filter-select {
+  margin-right: 16px; /* Ajusta el margen derecho según tus preferencias */
+}
+
+.filter select {
+  margin-right: 16px; /* Ajusta el margen derecho según tus preferencias */
+  padding: 8px;
+  cursor: pointer;
+  border: 1px solid #2a2929;
+  border-radius: 4px;
+  max-width: 200px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Media query para pantallas más pequeñas... */
+
+@media (max-width: 600px) {
+  .filter {
+    flex-direction: column; /* Cambia a dirección de columna en pantallas más pequeñas */
+    align-items: center; /* Centra verticalmente en pantallas más pequeñas */
   }
-  
-  .filter-label {
-    margin-right: 16px; /* Ajusta el margen derecho según tus preferencias */
-  }
- 
-  
+
   .filter select {
-    margin-right: 10px; /* Ajusta el margen derecho según tus preferencias */
-    padding: 4px;
-    cursor: pointer;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    max-width: 200px;
-    width: 100%;
-    box-sizing: border-box;
+    margin-bottom: 6px; /* Ajusta el espacio entre los selectores en pantallas pequeñas */
   }
-  
-  /* Media query para pantallas más pequeñas... */
-  
+}

@@ -13,13 +13,13 @@ const createDogBreedDB = async ({name, height, weight, life_span, image, tempera
     const existingDog  = await Dog.findOne({where: {name}});
     if(existingDog) throw new Error('The breed already exists in the database');
     
-
-    const temperamentBD = await Temperament.findAll({
-        where: { name: temperaments },
-    });
-
     const dogCreated = await Dog.create({name, height, weight, life_span, image});
-    dogCreated.addTemperament(temperamentBD);
+    temperaments.forEach(async (temp) => {
+        const temperamentsDB = await Temperament.findOne({
+          where: { name: temp.name },
+        });
+        await dogCreated.addTemperament(temperamentsDB);
+      });
     return dogCreated;
 }
 
