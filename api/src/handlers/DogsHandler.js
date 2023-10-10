@@ -1,5 +1,6 @@
 const { 
     createDogBreedDB,
+    deleteDogBreedBD,
     getDogBreedByIdAPI,
     getDogBreedByIdBD,
     getAllDogBreedsAPI,
@@ -57,10 +58,21 @@ const createDogBreedHandler = async(req, res)=>{
     }
 }
 
+const deleteDogBreedHandler = async(req, res) =>{
+    try {
+        const { id } = req.params;
+        const response = await deleteDogBreedBD(id);
+        res.status(200).json(response);
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+}
+
 
 module.exports = {
     getAllDogBreedsHandler,
-    createDogBreedHandler,
     getDogBreedDetailHandler,
+    createDogBreedHandler,
+    deleteDogBreedHandler
 }
 

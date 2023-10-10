@@ -9,49 +9,37 @@ import {
 	orderByNameDesc,
 	filterCreate,
 	filterByTemperament,
-	resetDogs
+	resetDogs,
+	removeDogBreed,
 } from '../../redux/actions/dogActions';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import DogList from '../../components/DogList/DogList';
 import Pagination from '../../components/Pagination/Pagination';
 import Filter from './components/Filter/Filter';
-import clienteAxios from '../../config/clienteAxios';
 import Order from './components/Order/Order';
+import { getAllTemperaments } from '../../redux/actions/temperamentActions';
+import Spinner from '../../components/Spinner/Spinner';
 
 const HomePage = () => {
 	const dispatch  = useDispatch();
-	const allDogs = useSelector((state) => state.allDogs);
-	const [temperaments, setTemperaments] = useState ([])
+	const {allDogs, loading, error} = useSelector((state) => state.dogReducer);
+	const {temperaments} = useSelector((state) => state.temperamentReducers);
 
 	useEffect(() => {
 		dispatch(getDogBreeds())
+		dispatch(getAllTemperaments())
 	}, [dispatch]);
 
-	useEffect(() => {
-		const getTemperaments = async () => {
-		  try {
-			  const { data} = await clienteAxios.get('/temperaments')
-			  console.log( data)
-			  setTemperaments(data);
-		  } catch (error) {
-			  console.log(error)
-		  }
-		}
-		getTemperaments()
-	  }, []);
-
+	const totalDogs = allDogs.length;
 
 	const [currentPage, setCurrentPage] = useState(1);
-	const [itemsPerPage] = useState(8);
-	const indexOfLastItem = currentPage * itemsPerPage; 
-	const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-	const currentItems = allDogs.slice(indexOfFirstItem, indexOfLastItem);
+	const [dogPerPage] = useState(8);
+	const indexOfLastItem = currentPage * dogPerPage; 
+	const indexOfFirstItem = indexOfLastItem - dogPerPage;
+	const filterDogs = allDogs.slice(indexOfFirstItem, indexOfLastItem);
 
 
-	const paginateHandler = (pageNumber) =>{
-		setCurrentPage(pageNumber)
-	}
-
+	
 	const onSearch = (name) =>{
 		dispatch(searchDogBreedByName(name))
 		setCurrentPage(1);
@@ -65,14 +53,14 @@ const HomePage = () => {
 	const handleFilterBdOrApi = (event) => {
 		//const created = event.target.value === "Created" ? true : false
 		const created = event.target.value;
-		console.log(created)
+		
 		if(created === "Created"){
 			dispatch(filterCreate(true));
 			setCurrentPage(1);
 		}else if(created === "Existing"){
 			dispatch(filterCreate(false));
 			setCurrentPage(1);
-		}else{
+		}else if(created === 'All'){
 			dispatch(resetDogs())
 			setCurrentPage(1);
 		}
@@ -84,34 +72,25 @@ const HomePage = () => {
 		if(event.target.value === 'A'){
 			dispatch(orderByNameAsc());
 			setCurrentPage(1);
-		}else{
+		}else if(event.target.value === 'D'){
 			dispatch(orderByNameDesc());
 			setCurrentPage(1);
 		}
 		
 	}
-
 	const handlerSortWeight = (event) =>{
 		event.preventDefault ();
 		if(event.target.value == "Min"){
 			dispatch(orderByWeightMin());
 			setCurrentPage(1);
-		}else{
+		}else if(event.target.value == "Max"){
 			dispatch(orderByWeightMax());
 			setCurrentPage(1);
 		}
 		
 	}
 
-	const handlerUpdate=()=>{
-
-	}
-
-	const handlerDelete = (id) =>{
-
-	}
-
-	const newDogBreed = () => navigate("/dogs/new-dog");
+  
 	return (
 		<div> 
 			<SearchBar onSearch={onSearch}/>
@@ -119,21 +98,31 @@ const HomePage = () => {
 				handlerSortWeight={handlerSortWeight} 
 				handleSortBreed={handleSortBreed}
 			/>
+			
 			<Filter
-			   temperaments={temperaments}
+			   allTemperaments={temperaments}
 			   handleFilterTemperament = {handleFilterTemperament}
 			   handleFilterBdOrApi={handleFilterBdOrApi}
 			/>
-			<DogList 
-			  currentItems={currentItems}
-			  handlerDelete={handlerDelete}
-			/>
-			<Pagination 
-			  itemsPerPage={itemsPerPage}
-			  totalItems={allDogs.length}
-			  paginateHandler={paginateHandler}
-			  currentPage={currentPage}
-			/>
+			<br/>
+			{!loading && totalDogs > 0 && (
+				<Pagination 
+					currentPage={currentPage}
+					setCurrentPage={setCurrentPage}
+					totalDogs={totalDogs}
+					dogPerPage={dogPerPage}
+				/>
+			)}
+
+			{loading ? (
+				<Spinner/>
+			): error ? (
+				<div>{error}</div>
+			):(
+				<DogList 
+					filterDogs={filterDogs}
+				/>
+			)}
 			
 		</div>
 	);

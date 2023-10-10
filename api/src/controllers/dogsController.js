@@ -10,17 +10,32 @@ const createDogBreedDB = async ({name, height, weight, life_span, image, tempera
     if (apiResponse.data.length > 0) throw new Error('The breed already exists in the external API')
     
     
-    const existingDog  = await Dog.findOne({where: {name}});
+    const existingDog  = await Dog.findOne({where: {name}})
     if(existingDog) throw new Error('The breed already exists in the database');
     
     const dogCreated = await Dog.create({name, height, weight, life_span, image});
+    
     temperaments.forEach(async (temp) => {
-        const temperamentsDB = await Temperament.findOne({
-          where: { name: temp.name },
+        const temperamentsDB = await Temperament.findAll({
+          where: { name: temp },
         });
         await dogCreated.addTemperament(temperamentsDB);
       });
+    
     return dogCreated;
+}
+
+
+const deleteDogBreedBD = async (id)=>{
+    return Dog.destroy({
+        where:{ id }
+    }).then((response)=>{
+        if(response === 0){
+            throw new Error("The dog could not be deleted or does not exist.");
+        }
+        return `Dog with id: ${id} deleted successfully.`
+    })
+    
 }
 
 const  getAllDogBreedsAPI = async() =>{
@@ -71,22 +86,31 @@ const getAllDogBreedsBD = async() =>{
 const getDogBreedByIdAPI = async(id) =>{
     const {data} = await axios.get(`${URL_BASE}/?api_key=${API_KEY}`);
     
-    const dogBreedFilter = data.filter(dog => dog.id == id)
+    const [dogApi] = data.filter((dog) => dog.id == id);
 
-    if (dogBreedFilter.length === 0) {
+    if (!dogApi) {
         throw new Error('The dog does not exist in the API');
     }
-    
     const dogBreed = {
-        id: dogBreedFilter[0].id,
-        name: dogBreedFilter[0].name,
-        height: dogBreedFilter[0].height.metric,
-        weight: dogBreedFilter[0].weight.metric,
-        life_span: dogBreedFilter[0].life_span,
-        temperament: dogBreedFilter[0].temperament,
-        image: dogBreedFilter[0].image.url,
+        id: dogApi.id,
+        name: dogApi.name,
+        height: dogApi.height.metric,
+        weight: dogApi.weight.metric,
+        life_span: dogApi.life_span,
+        temperament: dogApi.temperament ? dogApi.temperament : 'Dog with no temperament',
+        image: dogApi.image.url || '',
         created: false,
     };
+    // const dogBreed = {
+    //     id: dogBreedFilter[0].id,
+    //     name: dogBreedFilter[0].name,
+    //     height: dogBreedFilter[0].height.metric,
+    //     weight: dogBreedFilter[0].weight.metric,
+    //     life_span: dogBreedFilter[0].life_span,
+    //     temperament: dogBreedFilter[0].temperament,
+    //     image: dogBreedFilter[0].image.url,
+    //     created: false,
+    // };
     return dogBreed
 }
 
@@ -181,10 +205,11 @@ const searchDogBreedsInDB = async(name) =>{
 
 module.exports = {
     createDogBreedDB,
+    deleteDogBreedBD,
     getDogBreedByIdAPI,
     getDogBreedByIdBD,
     getAllDogBreedsAPI,
     getAllDogBreedsBD,
     searchDogBreedsInAPI,
-    searchDogBreedsInDB,
+    searchDogBreedsInDB
 }

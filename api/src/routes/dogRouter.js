@@ -1,8 +1,9 @@
 const { Router } = require('express');
 const {   
-    createDogBreedHandler,
     getAllDogBreedsHandler,
     getDogBreedDetailHandler,
+    createDogBreedHandler,
+    deleteDogBreedHandler,
 } = require('../handlers/dogsHandler');
 
 const dogRouter = Router();
@@ -16,7 +17,6 @@ dogRouter
 dogRouter
 .route('/:id')
 .get(getDogBreedDetailHandler)
-.put()
-.delete()
+.delete(deleteDogBreedHandler)
 
 module.exports = dogRouter;

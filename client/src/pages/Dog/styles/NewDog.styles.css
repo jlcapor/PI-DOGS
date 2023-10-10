@@ -21,9 +21,9 @@
     letter-spacing: -1px;
     position: relative;
     display: flex;
-    align-items: center;
+    justify-content: center;
     padding-bottom: 30px;
-    padding: 1.5rem;
+    padding: 1.9rem;
 }
 
 
@@ -105,20 +105,20 @@
     transition: all 0.3s cubic-bezier(0.15, 0.83, 0.66, 1);
 }
 
-.temperament {
+.temperaments {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 20px;
 }
 
-.temperament ul {
+.temperaments ul {
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
-.temperament ul li {
+.temperaments ul li {
     background-color: #5d6763;
     border: 1px solid #eae9f1;
     color: white;
@@ -129,6 +129,45 @@
     padding: 7px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
+
+.delete-icon {
+    color: #b42107;
+    cursor: pointer;
+    margin-left: 5px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+
+.card__btn {
+    margin-top: 15px;
+    width: 76px;
+    height: 31px;
+    border: 2px solid var(--main-color);
+    border-radius: 4px;
+    font-weight: 700;
+    font-size: 11px;
+    color: var(--main-color);
+    background: var(--bg-color);
+    text-transform: uppercase;
+    transition: all 0.3s;
+}
+
+.card__btn-solid {
+    background: var(--main-color);
+    color: var(--bg-color);
+}
+
+.card__btn:hover {
+    background: var(--main-color);
+    color: var(--bg-color);
+}
+
+.card__btn-solid:hover {
+    background: var(--bg-color);
+    color: var(--main-color);
+}
+
 
 @media (max-width: 600px) {
     .form-container {

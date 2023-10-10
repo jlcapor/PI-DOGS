@@ -1,19 +1,17 @@
-/* En tu archivo styles.css */
+
 .order {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 10px;
+  margin-bottom: 13px;
 }
 
 .order-label {
   margin-right: 9px;
-  /* Ajusta el margen derecho según tus preferencias */
 }
 
 .order select {
   margin-right: 10px;
-  /* Ajusta el margen derecho según tus preferencias */
   padding: 4px;
   cursor: pointer;
   border: 1px solid #ccc;
@@ -22,12 +20,7 @@
   width: 100%;
   box-sizing: border-box;
 }
-.order {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 13px;
-}
+
 
 .filter-header {
   margin-bottom: 1px

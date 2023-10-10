@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from "react-redux";
-import clienteAxios from '../../config/clienteAxios';
-import { newDogBreed } from '../../redux/actions/dogActions';
-import TemperamentList from '../../components/TemperamentList/TemperamentList';
+import { useDispatch, useSelector} from "react-redux";
 import validation from '../../helpers/validation';
+import clienteAxios from '../../config/clienteAxios';
+import { getAllTemperaments } from '../../redux/actions/temperamentActions';
 import './styles/NewDog.styles.css';
-import { useNavigate } from 'react-router-dom';
 
 const AddDogForm = () => {
-	const navigate = useNavigate();
 	const dispatch = useDispatch ();
+	const {temperaments} = useSelector((state) => state.temperamentReducers);
+
 	const [input, setInput] = useState ({
 		name: '',
 		heightMin: '',
@@ -23,33 +22,20 @@ const AddDogForm = () => {
 	})
 
 	const [errors, setErrors] = useState ({
-		name: '',
-		heightMin: '',
-		heightMax: '',
-		weightMin: '',
-		weightMax: '',
-		lifeSpanMin: '',
-		lifeSpanMax: '',
-		image: '',
-		temperaments: []
+		name: 'Required field',
+		heightMin: 'Required field',
+		heightMax: 'Required field',
+		weightMin: 'Required field',
+		weightMax: 'Required field',
+		lifeSpanMin: 'Required field',
+		lifeSpanMax: 'Required field',
+		image: 'Required field',
+		temperaments:  'You must select at least one temperament' 
 	})
 	
-	const [temperamentsDb, setTemperamentsDb] = useState ([])
-	const [selectedTemperament, setSelectedTemperament] = useState('');
-	
 	useEffect(() => {
-	  const getTemperaments = async () => {
-		try {
-			const { data } = await clienteAxios.get('/temperaments')
-			setTemperamentsDb(data);
-		} catch (error) {
-			console.log(error)
-		}
-	  }
-	  getTemperaments()
+	  dispatch(getAllTemperaments())
 	}, []);
-
-
 
 	const handlerChange = (event) => {
 		event.preventDefault ();
@@ -63,34 +49,56 @@ const AddDogForm = () => {
 			  ...input,
 			  [event.target.name]: event.target.value,
 			})
-		  );
+		);
 	}
-
 
 	const handleSelect = (event) => {
-		const id = Number(event.target.value);
-		if (!input.temperaments.some((temp) => temp.id === id)) {
-			const temperament = temperamentsDb.find(item => item.id === id);
-				setInput ({
-				...input, 
-				temperaments:  [...input.temperaments, temperament]
-			})
-			setSelectedTemperament('')
-		}else{
-			console.log('Erro')
-		}
-	}
+		const selectedTemperament = event.target.value;
 
-	const deleteTemperament = (id) =>{
-		const filteredTemperament = input.temperaments.filter((temperament) => temperament.id !== Number(id));
+		    if(selectedTemperament === ""){
+				return
+			}
+	
+			if (!input.temperaments.includes(selectedTemperament)) {
+			
+				const fieldErrors = validation({ 
+					...input, 
+					[event.target.name]: selectedTemperament 
+				});
+	
+				setInput({
+				...input,
+				temperaments: [...input.temperaments, selectedTemperament],
+				});
+			
+				setErrors((prevErrors) => ({
+					...prevErrors,
+					...fieldErrors,
+					temperaments: '',
+				}));
+		   }else{
+			  alert('The temperament is already in the list')
+		   }
+	
+	
+	};
+
+	const deleteTemperament = (temperamentToDelete) => {
+		const filteredTemperaments = input.temperaments.filter((temperament) => temperament !== temperamentToDelete);
 		setInput({
-			...input,
-			temperaments: filteredTemperament
+		  ...input,
+		  temperaments: filteredTemperaments
 		});
-	}
+
+		setErrors({
+			...errors,
+			temperaments: filteredTemperaments.length === 0 ? 'You must select at least one temperament' : '',
+		});
+		document.getElementById('selectTemperaments').selectedIndex = 0;
+	};
 
 
-	const handleSubmit = (event) => {
+	const handleSubmit = async(event) => {
 		event.preventDefault();
 		const dogBreed = {
 			name: input.name,
@@ -100,18 +108,24 @@ const AddDogForm = () => {
 			image: input.image,
 			temperaments: input.temperaments
 		}
-		dispatch(newDogBreed(dogBreed));
-		setInput ({
-			name: '',
-			heightMin: '',
-			heightMax :'',
-			weightMin: '',
-			weightMax: '',
-			lifeSpanMin: '',
-			lifeSpanMax: '',
-			temperaments: []
-		})
-		navigate('/dogs/home')
+		try {
+			await clienteAxios.post('/dogs', dogBreed)
+			 setInput ({
+			 	name: '',
+			 	heightMin: '',
+			 	heightMax :'',
+			 	weightMin: '',
+			 	weightMax: '',
+			 	lifeSpanMin: '',
+			 	lifeSpanMax: '',
+			 	image: '',
+			 	temperaments: []
+			 });
+			 alert("Mascota creada..")
+		} catch (error) {
+			 alert(error.response.data.error)
+		}
+		
 	}
 
 	const diseableHandler = () =>{
@@ -125,11 +139,15 @@ const AddDogForm = () => {
 		 }
 		}
 		return diseable
-	  }
+	}
+
+	const temperamentsOptions = temperaments.map((temperament) => (
+		<option key={temperament.id} value={temperament.name}>{temperament.name}</option>
+	))
 
 	return ( 
 		<div className="form-container">
-			<h2 className="form-title">New Dog Breed</h2>
+			<h2 className="form-title">Add New Dog Breed</h2>
 			<form className='form' onSubmit={handleSubmit}>
 				<div className="form-group">
 					<label htmlFor="name">Name</label>
@@ -255,27 +273,40 @@ const AddDogForm = () => {
 						onChange={handlerChange}
 						placeholder='Image'
 					/>
+					<div className="error-message">
+					 {errors.image && <p>{errors.image}</p>}
+					</div>
 				</div>
 
 				<div className="form-group">
 						<label >Temperaments</label>
 						<select
-							name='temperaments'
+							id='selectTemperaments'
 							onChange={handleSelect}
-							value={selectedTemperament}
 						>
-							<option value="">--Elegir temperamento/s--</option>
-							{temperamentsDb.map((tem)=>(
-								<option key={tem.id} value={tem.id}>{tem.name}</option>
-							))}
+							<option value="">Elegir temperamento/s</option>
+							{temperamentsOptions}
 						</select>
-						 {
-							<TemperamentList 
-							   temperaments={input.temperaments}
-							   deleteTemperament={deleteTemperament}
-							/>
-						
-						}
+						<div className="error-message">
+							{errors.temperaments && <p>{errors.temperaments}</p>}
+						</div>
+						<div className="temperaments">
+							<ul>
+								{
+									input.temperaments.map((item, i) => (
+										<li key={i}>
+										{item}{'   '}
+										<span
+											onClick={() => deleteTemperament(item)}
+											className="delete-icon"
+										>
+											X
+										</span>
+										</li>
+									))
+								}
+							</ul>
+						</div>
 						
 				</div>
 

@@ -8,10 +8,10 @@ const NavBar = () => {
 	return (
 		<nav className="navbar">
 			<div className="navbar-container">
-				<h1>Dogs</h1>
+				<h1>Breeds</h1>
 				<ul className="nav-links">
 					<li><Link to="/dogs/home">Dogs</Link></li>
-					<li><Link href="/about">About</Link></li>
+					{/* <li><Link href="/about">About</Link></li> */}
 					<li><button  className="botonLink" onClick={newDogBreed}>New Breed</button></li>
 				</ul>
 			</div>

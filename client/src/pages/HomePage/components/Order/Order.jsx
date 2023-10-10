@@ -1,21 +1,28 @@
-import React from 'react';
-import './Order.css';
+import React, { useState } from 'react';
+import './order.css';
 const Order = (props) => {
+	const [select, setSelect] = useState(' ');
 	return (
 			<div className='order'>
 				<div className='order-header'>
 					<span className='order-label'>Order </span>
 				</div>
-				<select onChange={props.handlerSortWeight} >
-					<option>Sort by Weight</option>
-					<option Value="Min">A - Z</option>
-					<option Value="Max">Z - A</option>
+				<select 
+				    onChange={props.handlerSortWeight} 
+					value={select}
+				>
+					<option value=''>Sort by Weight</option>
+					<option Value="Min">Min - Max</option>
+					<option Value="Max">Max - Min</option>
 				</select> 
 
-				<select onChange={props.handleSortBreed}>
-					<option>In alphabetical order</option>
-					<option value="A">Asc</option>
-					<option value="D">Desc</option>
+				<select 
+					onChange={props.handleSortBreed}
+					value={select}
+				>
+					<option value=''>In alphabetical order</option>
+					<option value="A">A - Z</option>
+					<option value="D">Z - A</option>
 				</select> 
 			</div>
 	);

@@ -1,4 +1,3 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap');
 
 * {
@@ -10,11 +9,13 @@
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-  sans-serif;
--webkit-font-smoothing: antialiased;
--moz-osx-font-smoothing: grayscale;
-background-image: url('../src/img/fondo.jpg');
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-image: url('../src/img/Gris.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 
@@ -32,9 +33,9 @@ code {
 
 .new-carcater img {
   width: 3.4rem;
-  
+
 }
+
 .new-carcater img:hover {
   cursor: pointer;
 }
-

@@ -1,5 +1,3 @@
-/* En tu archivo styles.css */
-
 .filter {
   display: flex;
   align-items: center;
@@ -8,19 +6,19 @@
 }
 
 .filter-header {
-  margin-bottom: 8px; /* Ajusta el margen derecho según tus preferencias */
+  margin-bottom: 8px; 
 }
 
 .filter-label {
-  margin-right: 13px; /* Ajusta el margen derecho según tus preferencias */
+  margin-right: 13px; 
 }
 
 .filter-select {
-  margin-right: 16px; /* Ajusta el margen derecho según tus preferencias */
+  margin-right: 16px;
 }
 
 .filter select {
-  margin-right: 16px; /* Ajusta el margen derecho según tus preferencias */
+  margin-right: 16px;
   padding: 8px;
   cursor: pointer;
   border: 1px solid #2a2929;
@@ -30,15 +28,16 @@
   box-sizing: border-box;
 }
 
-/* Media query para pantallas más pequeñas... */
-
+.custom-select option:first-child {
+  display: none;
+}
 @media (max-width: 600px) {
   .filter {
-    flex-direction: column; /* Cambia a dirección de columna en pantallas más pequeñas */
-    align-items: center; /* Centra verticalmente en pantallas más pequeñas */
+    flex-direction: column; 
+    align-items: center;
   }
 
   .filter select {
-    margin-bottom: 6px; /* Ajusta el espacio entre los selectores en pantallas pequeñas */
+    margin-bottom: 6px;
   }
 }

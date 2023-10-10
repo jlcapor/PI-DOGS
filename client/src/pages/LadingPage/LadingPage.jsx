@@ -6,12 +6,15 @@ const LadingPage = () => {
 	const navigate = useNavigate();
 	const handleHomePage = () => navigate("/dogs/home");
 	return (
-		<div className='homepage'>
-			<h1>
-				Dogs
-			</h1>
-			<button onClick={handleHomePage}>Home Page</button>
+		<div> 
+			<h1 className={styles.title}>Dog Breeds</h1>
+			<div className={styles.ladingPage}>
+				<div className={styles.fixedContent}>
+					<button  className={styles.button} onClick={handleHomePage}>Home Page</button>
+				</div>
+			</div>
 		</div>
+		
 	);
 };
 

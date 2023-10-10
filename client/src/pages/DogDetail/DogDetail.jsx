@@ -1,44 +1,45 @@
-import { useState, useEffect } from 'react';
+import {  useEffect } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import { clearDogBreedDetail, getDogDetail } from '../../redux/actions/dogActions';
 import {  useParams } from 'react-router-dom';
 import './DogDetail.styles.css';
+import Spinner from '../../components/Spinner/Spinner';
 
 const DogDetail = () => {
 	const dispatch = useDispatch();
 	const { id } = useParams();
 
-	const dogBreed = useSelector((state) => state.dogBreedDetail);
-	
+	const {dogBreedDetail, loading} = useSelector((state) => state.dogReducer);
 	useEffect(() => {
 		dispatch(getDogDetail(id));
 	  	return () => {
 			dispatch(clearDogBreedDetail())
 	   	};
 	}, [id]);
-
+	console.log(dogBreedDetail)
 	return (
 		<div className='detail-container'>
-			<div className = "card-detail">
+			{loading ? (
+				<Spinner/>
+			):(
+				<div className = "card-detail">
 				<div className ="wrap-image">
-					<img src={dogBreed.image} alt={ dogBreed.name }/>
-					<div className="button-container">
-						{dogBreed.created && <button className="update-button">Update</button>}
-    				</div>
+					<img src={dogBreedDetail.image} alt={ dogBreedDetail.name }/>
 				</div>
 				<div className="description">
-				<h3>{ dogBreed.name }</h3>
+				<h3>{ dogBreedDetail.name }</h3>
 				<div></div>
 				<ul>
-					<li><strong>ID: {dogBreed.id}</strong></li>
-					<li><strong>Height: {`${dogBreed.height} cm`}</strong></li>
-					<li><strong>Weight : {`${dogBreed.weight} Kgs`}</strong></li>
-					<li><strong>Temperament: {dogBreed.temperament}</strong></li>
-					<li><strong>Life Span: {dogBreed.life_span}</strong></li>
+					<li><strong>ID: {dogBreedDetail.id}</strong></li>
+					<li><strong>Height: {`${dogBreedDetail.height} cm`}</strong></li>
+					<li><strong>Weight : {`${dogBreedDetail.weight} Kgs`}</strong></li>
+					<li><strong>Temperament: {dogBreedDetail.temperament}</strong></li>
+					<li><strong>Life Span: {dogBreedDetail.life_span}</strong></li>
 				</ul>
 				
 				</div>
 			</div>
+			)}
 			
 		</div>
 	  );

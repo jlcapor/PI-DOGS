@@ -21,7 +21,7 @@ ModelTemperament(database);
 const {Dog, Temperament} = database.models
 
 
-Dog.belongsToMany(Temperament, { through: 'dog_temperament' });
+Dog.belongsToMany(Temperament, { through: 'dog_temperament' , onDelete: 'CASCADE'});
 Temperament.belongsToMany(Dog, { through: 'dog_temperament' });
 
 module.exports = {

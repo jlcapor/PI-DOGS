@@ -19,10 +19,30 @@
 
 .card:hover {
   transform: translateY(-5px);
-  /* Efecto de levantamiento al hacer hover */
   box-shadow: 0 8px 12px rgba(0, 0, 0, 0.4);
-  /* Sombra más pronunciada al hacer hover */
 }
+
+.card__btn {
+  margin-top: 15px;
+  margin-right: 8px; /* Ajusta el margen derecho según tus necesidades */
+  width: 76px;
+  height: 31px;
+  border: 2px solid var(--main-color);
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 11px;
+  color: var(--main-color);
+  background: var(--bg-color);
+  text-transform: uppercase;
+  transition: all 0.3s;
+}
+
+.card-btn-update {
+  border: 2px solid #007bff;
+  color: #007bff;
+  background: #ffffff;
+}
+
 
 .image-container {
   width: 100%;
@@ -67,19 +87,55 @@
 
 .button-container {
   display: flex;
-  flex-direction: column;
-  align-items: end;
-  /* Alinea el botón al final de su contenedor */
+  justify-content: center;
+  align-items: center;
+  margin-top: 15px;
+}
+.card-btn-update,
+.card-btn-delete {
+  width: 76px;
+  height: 31px;
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 11px;
+  text-transform: uppercase;
+  transition: all 0.3s;
+  margin-right: 5px; /* Ajusta según sea necesario para la separación horizontal entre botones */
 }
 
-.delete-button {
+/* Estilos específicos para el botón Update */
+.card-btn-update {
+  border: 2px solid #007bff;
+  color: #007bff;
+  background: #ffffff;
+}
+
+.card-btn-update:hover {
+  background: #007bff;
+  color: white;
+}
+
+/* Estilos específicos para el botón Delete */
+.card-btn-delete {
+  border: 2px solid #dc3545;
+  color: #dc3545;
+  background: #ffffff;
+}
+
+.card-btn-delete:hover {
+  background: #dc3545;
+  color: white;
+}
+
+/* .delete-button {
   font-size: 0;
   padding: 0;
   top: 12px;
   bottom: 12px;
   border: none;
   cursor: pointer;
-}
+ 
+} */
 
 .favorite-heart {
   position: absolute;

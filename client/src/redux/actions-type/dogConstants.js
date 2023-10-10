@@ -1,0 +1,44 @@
+export const CREATE_DOG_REQUEST = 'CREATE_DOG_REQUEST';
+export const CREATE_DOG_SUCCESS = 'CREATE_DOG_SUCCESS';
+export const CREATE_DOG_FAIL = 'CREATE_DOG_FAIL';
+
+export const GET_DOGS_REQUEST = 'GET_DOGS_REQUEST';
+export const GET_DOGS_SUCCESS = 'GET_DOGS_SUCCESS';
+export const GET_DOGS_FAIL = 'GET_DOGS_FAIL';
+
+export const GET_DOG_DETAILS_REQUEST = 'GET_DOG_DETAILS_REQUEST';
+export const GET_DOG_DETAILS_SUCCESS = 'GET_DOG_DETAILS_SUCCESS';
+export const GET_DOG_DETAILS_FAIL = 'GET_DOG_DETAILS_FAIL';
+export const CLEAR_DETAIL = 'CLEAR_DETAIL';
+
+export const GET_PRODUCT_EDIT = 'GET_PRODUCT_EDIT'
+
+
+export const GET_DOG_EDIT = 'GET_DOG_EDIT';
+export const DOG_EDIT_REQUEST = 'DOG_EDIT_REQUEST';
+export const DOG_EDIT_SUCCESS = 'DOG_EDIT_SUCCESS';
+export const DOG_EDIT_FAIL = 'DOG_EDIT_FAIL';
+
+export const DOG_DELETE_REQUEST = 'DOG_DELETE_REQUEST';
+export const DOG_DELETE_SUCCESS  = 'DOG_DELETE_SUCCESS';
+export const DOG_DELETE_FAIL  = 'DOG_DELETE_FAIL';
+
+export const GET_BY_NAME_REQUEST = 'GET_BY_NAME_REQUEST';
+export const GET_BY_NAME_SUCCESS = 'GET_BY_NAME_SUCCESS';
+export const GET_BY_NAME_FAIL = 'GET_BY_NAME_FAIL';
+
+export const ORDER_BY_WEIGHT_MIN = 'ORDER_BY_WEIGHT_MIN';
+export const ORDER_BY_WEIGHT_MAX = 'ORDER_BY_WEIGHT_MAX';
+export const ORDER_FOR_NAME_AZ = 'ORDER_FOR_NAME_AZ';
+export const ORDER_FOR_NAME_ZA = 'ORDER_FOR_NAME_ZA';
+
+export const FILTER_BY_TEMPERAMENT = 'ORDER_BY_TEMPERAMENT';
+export const FILTER_CREATE_BD_API= 'FILTER_CREATE_BD_API';
+export const RESET = 'RESET';
+
+
+//--------------------------------------------------------------------
+
+
+
+
