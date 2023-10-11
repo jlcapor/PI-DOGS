@@ -109,6 +109,11 @@
     transition: all 0.3s cubic-bezier(0.15, 0.83, 0.66, 1);
 }
 
+.form button:disabled {
+    opacity: 0.5; /* El botón será más transparente cuando esté deshabilitado */
+    cursor: not-allowed; /* Cambia el cursor cuando el botón está deshabilitado */
+}
+
 .temperaments {
     display: flex;
     flex-wrap: wrap;

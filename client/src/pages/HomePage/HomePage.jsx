@@ -20,24 +20,36 @@ import styles from './HomePage.module.css';
 
 const HomePage = () => {
 	const dispatch  = useDispatch();
-	const {allDogs, loading, error} = useSelector((state) => state.dogReducer);
-	const {temperaments} = useSelector((state) => state.temperamentReducers);
 
+	const dogState = useSelector((state) => state.dogReducer);
+	const { allDogs, loading, error } = dogState;
+
+	const temperamentState = useSelector((state) => state.temperamentReducers);
+	const { temperaments } = temperamentState;
+
+	const [currentPage, setCurrentPage] = useState(1);
+	const [dogPerPage] = useState(8);
+	
 	useEffect(() => {
 		dispatch(getDogBreeds())
 		dispatch(getAllTemperaments())
 	}, [dispatch]);
 
-	const totalDogs = allDogs.length;
 
-	const [currentPage, setCurrentPage] = useState(1);
-	const [dogPerPage] = useState(8);
-	const indexOfLastItem = currentPage * dogPerPage; 
-	const indexOfFirstItem = indexOfLastItem - dogPerPage;
-	const filterDogs = allDogs.slice(indexOfFirstItem, indexOfLastItem);
-
-
+	const totalDogs = Array.isArray(allDogs) ? allDogs.length : 0;
 	
+	const getFilteredDogs = () => {
+		if (totalDogs === 0) {
+		  return [];
+		}
+		const indexOfLastItem = currentPage * dogPerPage;
+		const indexOfFirstItem = indexOfLastItem - dogPerPage;
+		return allDogs.slice(indexOfFirstItem, indexOfLastItem);
+	};
+
+	const filterDogs = getFilteredDogs();
+	
+
 	const onSearch = (name) =>{
 		dispatch(searchDogBreedByName(name))
 		setCurrentPage(1);
@@ -86,9 +98,34 @@ const HomePage = () => {
 		dispatch(resetDogs())
 		setCurrentPage(1);
 	}
+
+
+	const renderContent = () => {
+		if (loading) {
+		  return <Spinner />;
+		}
+		if (error) {
+		  return <div className={styles.message}>{error}</div>;
+		}
+		if (totalDogs === 0) {
+		  return <div className={styles.message}>There are no dogs available.</div>;
+		}
+		return (
+		  <div>
+			<DogList filterDogs={filterDogs} />
+			<Pagination
+			  currentPage={currentPage}
+			  setCurrentPage={setCurrentPage}
+			  totalDogs={totalDogs}
+			  dogPerPage={dogPerPage}
+			/>
+		  </div>
+		);
+	  };
   
 	return (
 		<div> 
+			
 			<SearchBar temperaments={temperaments} onSearch={onSearch}  handleFilterTemperament = {handleFilterTemperament}/>
 			<div className={styles.opciones}>
 				<div className={styles.orderHeader}>
@@ -110,24 +147,7 @@ const HomePage = () => {
 				<button onClick={handleFilterBdOrApi}>ALL</button>
 			</div>
 			
-			{loading ? (
-				<Spinner/>
-			): error ? (
-				<div>{error}</div>
-			):(
-				<DogList 
-					filterDogs={filterDogs}
-				/>
-			)}
-
-			{!loading && totalDogs > 0 && (
-				<Pagination 
-					currentPage={currentPage}
-					setCurrentPage={setCurrentPage}
-					totalDogs={totalDogs}
-					dogPerPage={dogPerPage}
-				/>
-			)}
+			{renderContent()}
 
 		</div>
 	);

@@ -8,8 +8,8 @@ import Spinner from '../../components/Spinner/Spinner';
 const DogDetail = () => {
 	const dispatch = useDispatch();
 	const { id } = useParams();
-
-	const {dogBreedDetail, loading} = useSelector((state) => state.dogReducer);
+	const { dogBreedDetail, loading } = useSelector((state) => state.dogReducer);
+	
 	useEffect(() => {
 		dispatch(getDogDetail(id));
 	  	return () => {
@@ -21,7 +21,7 @@ const DogDetail = () => {
 		<div className='detail-container'>
 			{loading ? (
 				<Spinner/>
-			):(
+			): dogBreedDetail && dogBreedDetail.id ? (
 				<div className = "card-detail">
 				<div className ="wrap-image">
 					<img src={dogBreedDetail.image} alt={ dogBreedDetail.name }/>
@@ -38,7 +38,9 @@ const DogDetail = () => {
 				</ul>
 				
 				</div>
-			</div>
+				</div>
+			):(
+				<p className='centered-message'>The dog breed with ID {id} was not found.</p>
 			)}
 			
 		</div>

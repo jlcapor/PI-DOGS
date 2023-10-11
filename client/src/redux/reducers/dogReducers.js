@@ -27,6 +27,8 @@ import {
 
 const initialState ={
     allDogs:[],
+    error: null,
+    loading: false, 
     dogsCopy: [],
     filteredDogs:[],
     dogBreedDetail:{},
@@ -44,6 +46,8 @@ const dogReducer = (state = initialState , action) => {
             return {
                 ...state,
 				loading: false,
+                error: null,
+                success:false,
 				allDogs : action.payload,
                 dogsCopy: action.payload,
                 filteredDogs: action.payload,
@@ -69,7 +73,7 @@ const dogReducer = (state = initialState , action) => {
         case GET_DOG_DETAILS_FAIL:
             return {
                 ...state,
-				loading: false,
+				loading: true,
 				error: action.payload,
             };
             
@@ -95,7 +99,7 @@ const dogReducer = (state = initialState , action) => {
         case GET_BY_NAME_FAIL:
             return {
                 ...state,
-                loading: false,
+                loading: true,
 				error: action.payload,
             };
         
@@ -144,7 +148,7 @@ const dogReducer = (state = initialState , action) => {
         case DOG_DELETE_FAIL:
             return{
                 ...state,
-                loading: false,
+                loading: true,
                 error:action.payload,
             };
         

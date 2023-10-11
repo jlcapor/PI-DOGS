@@ -6,7 +6,7 @@ const validation = (dogData) =>{
       errors.name = "Required field"
    }else if(dogData.name.length > 35) {
       errors.name = "The name must not exceed 35 characters"
-   }else if(!/^[a-zA-ZñÑ][a-zA-ZñÑ\s]*$/.test(dogData.name)){
+   }else if(!/^[a-zA-ZñÑ\s()]+$/u.test(dogData.name)){
       errors.name = 'The text contains numbers or other unauthorized characters.'
    }
 

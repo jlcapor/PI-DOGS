@@ -6,8 +6,12 @@ const {URL_BASE, API_KEY} = process.env;
 //Cambiar si  temperament
 const createDogBreedDB = async ({name, height, weight, life_span, image, temperaments})=>{
 
-    const apiResponse = await axios.get(`${URL_BASE}/search?q=${name}&api_key=${API_KEY}`);
-    if (apiResponse.data.length > 0) throw new Error('The breed already exists in the external API')
+    // const apiResponse = await axios.get(`${URL_BASE}/search?q=${name}&api_key=${API_KEY}`);
+    const {data} = await axios.get(`${URL_BASE}/?api_key=${API_KEY}`);
+    const dogFilter = data.filter((dogBreed) =>
+        dogBreed.name.toLowerCase().includes(name.toLowerCase())
+    );
+    if (dogFilter.length > 0) throw new Error('The breed already exists in the external API')
     
     
     const existingDog  = await Dog.findOne({where: {name}})
@@ -82,6 +86,8 @@ const getAllDogBreedsBD = async() =>{
 
     return dogBreedsBD;
 }
+
+
 
 const getDogBreedByIdAPI = async(id) =>{
     const {data} = await axios.get(`${URL_BASE}/?api_key=${API_KEY}`);

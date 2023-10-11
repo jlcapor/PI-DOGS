@@ -4,7 +4,6 @@ import validation from '../../helpers/validation';
 import { getAllTemperaments } from '../../redux/actions/temperamentActions';
 import { createDogBreed } from '../../redux/actions/dogActions'; 
 import './styles/NewDog.styles.css';
-import Spinner from '../../components/Spinner/Spinner';
 import Loader from '../../components/Loader/Loader';
 
 const AddDogForm = () => {
@@ -43,7 +42,9 @@ const AddDogForm = () => {
 	}, []);
 
 	useEffect(() => {
+		
 		if (dogSaveSuccess) {
+			alert('Dog breed successfully created.');
 			setInput ({
 				name: '',
 				heightMin: '',
@@ -143,6 +144,7 @@ const AddDogForm = () => {
 		})
 	}
 
+	// const isSubmitButtonDisabled = Object.values(errors).some(error => error !== '');
 	const diseableHandler = () =>{
 		let diseable
 		for (let error in errors) {
@@ -160,10 +162,13 @@ const AddDogForm = () => {
 		<option key={temperament.id} value={temperament.name}>{temperament.name}</option>
 	))
 
+	
+
 	return ( 
 		<div className="form-container">
 			<h2 className="form-title">Add New Dog Breed</h2>
 			<form className='form' onSubmit={handleSubmit}>
+				<p>{error}</p>
 				<div className="form-group">
 						<label htmlFor="name">Name</label>
 						<input
@@ -294,17 +299,17 @@ const AddDogForm = () => {
 				</div>
 
 				<div className="form-group">
-							<label >Temperaments</label>
-							<select
-								id='selectTemperaments'
-								onChange={handleSelect}
-							>
-								<option value="">Elegir temperamento/s</option>
+					<label >Temperaments</label>
+					<select
+						id='selectTemperaments'
+						onChange={handleSelect}
+					>
+						<option value="">Elegir temperamento/s</option>
 								{temperamentsOptions}
-							</select>
-							<div className="error-message">
-								{errors.temperaments && <p>{errors.temperaments}</p>}
-							</div>
+					</select>
+					<div className="error-message">
+						{errors.temperaments && <p>{errors.temperaments}</p>}
+					</div>
 							<div className="temperaments">
 								<ul>
 									{

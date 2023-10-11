@@ -15,11 +15,11 @@ const getAllDogBreedsHandler = async(req , res)=>{
 
     try {
         if(name){
-            const [apiResults, dbResults] = await Promise.all([
+            const [dbResults, apiResults] = await Promise.all([
                 searchDogBreedsInDB(name.toLowerCase()),
                 searchDogBreedsInAPI(name.toLowerCase())
             ]);
-            const searchDogBreeds = [...apiResults, ...(dbResults || [])];
+            const searchDogBreeds = [...dbResults, ...apiResults,];
             res.status(200).json(searchDogBreeds);
         }else{
             const allDogBreeds = await Promise.all([

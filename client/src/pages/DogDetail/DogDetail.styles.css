@@ -22,7 +22,6 @@
 
 
 
-/*  image container inside each card  */
 .wrap-image {
   /* background-color: #0dd7e9; */
   width: 90vw;
@@ -126,7 +125,10 @@
 }
 
 
-/*  media queries*/
+.centered-message {
+  text-align: center;
+  margin-top: 139px; /* Ajusta según sea necesario */
+}
 
 
 @media (min-width: 768px) {
