@@ -28,8 +28,9 @@ import {
 const initialState ={
     allDogs:[],
     dogsCopy: [],
+    filteredDogs:[],
     dogBreedDetail:{},
-    dogEdit: {}
+    dogBreed: {}
 }
 
 const dogReducer = (state = initialState , action) => {
@@ -45,6 +46,7 @@ const dogReducer = (state = initialState , action) => {
 				loading: false,
 				allDogs : action.payload,
                 dogsCopy: action.payload,
+                filteredDogs: action.payload,
             };
         case GET_DOGS_FAIL :
             return {
@@ -83,10 +85,12 @@ const dogReducer = (state = initialState , action) => {
 				loading: true,
             };
         case GET_BY_NAME_SUCCESS:
+
             return {
                 ...state,
                 loading: false,
                 allDogs : action.payload,
+                filteredDogs: action.payload
             };
         case GET_BY_NAME_FAIL:
             return {
@@ -98,18 +102,22 @@ const dogReducer = (state = initialState , action) => {
         case CREATE_DOG_REQUEST:
             return{
                 ...state,
+                success: false,
 				loading: true,
             };
         case CREATE_DOG_SUCCESS:
-            return { 
-                loading: false, 
-                success: true, 
-                dogBreed: action.payload 
+            return {
+                ...state,
+                loading: false,
+                success: true,
+                error: null,
+                allDogs: [...state.allDogs, action.payload],
             };
         case CREATE_DOG_FAIL:
             return {
                 ...state,
                 loading: false,
+                success: false,
                 error: action.payload,
             };
 
@@ -144,22 +152,22 @@ const dogReducer = (state = initialState , action) => {
             const allDogsFiltered = state.dogsCopy.filter((dog) =>dog.created === action.payload)
             return{
                 ...state,
-                allDogs: allDogsFiltered
+                allDogs: allDogsFiltered,
+                filteredDogs: allDogsFiltered
             };
         case FILTER_BY_TEMPERAMENT:
-            const filterTemperament = state.dogsCopy.filter(dog => {
+            const filterTemperament = state.filteredDogs.filter(dog => {
                 if (!dog.temperament) return null;
                 return dog.temperament.includes(action.payload)
             });
-
             return {
                 ...state,
-                allDogs: [...filterTemperament]
+                allDogs: filterTemperament,
             };
          
 
         case ORDER_FOR_NAME_AZ:
-            const allDogsCopyAsc = [...state.dogsCopy];
+            const allDogsCopyAsc = [...state.allDogs];
             const resultAsc = allDogsCopyAsc.sort((a, b)=>{
                 if (a.name > b.name) return 1;
                 if (a.name < b.name) return -1;
@@ -170,7 +178,7 @@ const dogReducer = (state = initialState , action) => {
                 allDogs: resultAsc
             };
         case ORDER_FOR_NAME_ZA:
-            const allDogsCopyDesc = [...state.dogsCopy];
+            const allDogsCopyDesc = [...state.allDogs];
             const resultDesc = allDogsCopyDesc.sort((a, b)=>{
                 if (a.name > b.name) return -1;
                 if (a.name < b.name) return 1;
@@ -182,7 +190,7 @@ const dogReducer = (state = initialState , action) => {
                 allDogs: resultDesc
             };
         case ORDER_BY_WEIGHT_MIN:
-            const resultsMin = state.dogsCopy.sort((a, b) => {
+            const resultsMin = state.allDogs.sort((a, b) => {
                 const weightA = a.weight.split(" - ").map(Number);
                 const weightB = b.weight.split(" - ").map(Number);
             
@@ -199,7 +207,7 @@ const dogReducer = (state = initialState , action) => {
             };
 
         case ORDER_BY_WEIGHT_MAX:
-          const resultsMax = state.dogsCopy.sort((a, b) => {
+          const resultsMax = state.allDogs.sort((a, b) => {
                 const weightA = a.weight.split(" - ").map(Number); 
                 const weightB = b.weight.split(" - ").map(Number);
 
@@ -216,7 +224,8 @@ const dogReducer = (state = initialState , action) => {
         case RESET:
             return {
                 ...state,
-                allDogs: state.dogsCopy
+                allDogs: state.dogsCopy,
+                filteredDogs: state.dogsCopy
             };
 
         default:

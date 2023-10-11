@@ -43,7 +43,7 @@ export const getDogBreeds = () => {
     }
 }
 
-export const createDogBreed = async(dogBreed) =>{
+export const createDogBreed = (dogBreed) =>{
     return async (dispatch) => {
         try {
             dispatch({type: CREATE_DOG_REQUEST})

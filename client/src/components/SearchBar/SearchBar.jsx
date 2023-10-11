@@ -1,10 +1,13 @@
 import { useState } from 'react';
 import './searchBar.styles.css';
 
-const SearchBar = ({onSearch}) => {
+const SearchBar = ({temperaments, onSearch, handleFilterTemperament}) => {
 
 	const [name, setName] = useState ('');
 
+	const temperamentsOptions = temperaments.map((temperament) => (
+		<option key={temperament.id} value={temperament.name}>{temperament.name}</option>
+	))
 	const handleChange = (event) => {
 		setName(event.target.value);
 	};
@@ -24,6 +27,11 @@ const SearchBar = ({onSearch}) => {
 		   >
 			Search
 		  </button>
+
+			<select  onChange={handleFilterTemperament} className="select-input">
+				<option value=''>Elegir temperamento/s</option>
+				{temperamentsOptions}
+			</select>
 		</div>
 	);
 };

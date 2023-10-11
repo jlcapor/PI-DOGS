@@ -11,7 +11,7 @@ const NavBar = () => {
 				<h1>Breeds</h1>
 				<ul className="nav-links">
 					<li><Link to="/dogs/home">Dogs</Link></li>
-					{/* <li><Link href="/about">About</Link></li> */}
+					<li><Link to="/">Lading Page</Link></li>
 					<li><button  className="botonLink" onClick={newDogBreed}>New Breed</button></li>
 				</ul>
 			</div>

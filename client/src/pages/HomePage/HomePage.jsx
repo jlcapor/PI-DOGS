@@ -10,15 +10,13 @@ import {
 	filterCreate,
 	filterByTemperament,
 	resetDogs,
-	removeDogBreed,
 } from '../../redux/actions/dogActions';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import DogList from '../../components/DogList/DogList';
 import Pagination from '../../components/Pagination/Pagination';
-import Filter from './components/Filter/Filter';
-import Order from './components/Order/Order';
 import { getAllTemperaments } from '../../redux/actions/temperamentActions';
 import Spinner from '../../components/Spinner/Spinner';
+import styles from './HomePage.module.css';
 
 const HomePage = () => {
 	const dispatch  = useDispatch();
@@ -50,21 +48,10 @@ const HomePage = () => {
 		setCurrentPage(1);
 	}
 
-	const handleFilterBdOrApi = (event) => {
-		//const created = event.target.value === "Created" ? true : false
-		const created = event.target.value;
-		
-		if(created === "Created"){
-			dispatch(filterCreate(true));
-			setCurrentPage(1);
-		}else if(created === "Existing"){
-			dispatch(filterCreate(false));
-			setCurrentPage(1);
-		}else if(created === 'All'){
-			dispatch(resetDogs())
-			setCurrentPage(1);
-		}
-	};
+	const handlerFilterAPI=()=>{
+		dispatch(filterCreate(false));
+		setCurrentPage(1);
+	}
 
 
 	const handleSortBreed = (event) => {
@@ -90,30 +77,39 @@ const HomePage = () => {
 		
 	}
 
+	const handlerFilterBD=()=>{
+		dispatch(filterCreate(true));
+		setCurrentPage(1);
+	}
+
+	const handleFilterBdOrApi = () =>{
+		dispatch(resetDogs())
+		setCurrentPage(1);
+	}
   
 	return (
 		<div> 
-			<SearchBar onSearch={onSearch}/>
-			<Order 
-				handlerSortWeight={handlerSortWeight} 
-				handleSortBreed={handleSortBreed}
-			/>
-			
-			<Filter
-			   allTemperaments={temperaments}
-			   handleFilterTemperament = {handleFilterTemperament}
-			   handleFilterBdOrApi={handleFilterBdOrApi}
-			/>
-			<br/>
-			{!loading && totalDogs > 0 && (
-				<Pagination 
-					currentPage={currentPage}
-					setCurrentPage={setCurrentPage}
-					totalDogs={totalDogs}
-					dogPerPage={dogPerPage}
-				/>
-			)}
+			<SearchBar temperaments={temperaments} onSearch={onSearch}  handleFilterTemperament = {handleFilterTemperament}/>
+			<div className={styles.opciones}>
+				<div className={styles.orderHeader}>
+					<span className={styles.orderLabel}>Opciones: </span>
+				</div>
+				<select onChange={handlerSortWeight}>
+					<option value=''>Sort by Weight</option>
+					<option Value="Min">Min - Max</option>
+					<option Value="Max">Max - Min</option>
+				</select> 
 
+				<select onChange={handleSortBreed}>
+					<option value=''>In alphabetical order</option>
+					<option value="A">A - Z</option>
+					<option value="D">Z - A</option>
+				</select>
+				<button onClick={handlerFilterAPI}>API</button>
+				<button onClick={handlerFilterBD}>BD</button>
+				<button onClick={handleFilterBdOrApi}>ALL</button>
+			</div>
+			
 			{loading ? (
 				<Spinner/>
 			): error ? (
@@ -123,7 +119,16 @@ const HomePage = () => {
 					filterDogs={filterDogs}
 				/>
 			)}
-			
+
+			{!loading && totalDogs > 0 && (
+				<Pagination 
+					currentPage={currentPage}
+					setCurrentPage={setCurrentPage}
+					totalDogs={totalDogs}
+					dogPerPage={dogPerPage}
+				/>
+			)}
+
 		</div>
 	);
 };

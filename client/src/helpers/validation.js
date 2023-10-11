@@ -1,8 +1,7 @@
 const validation = (dogData) =>{
-const errors = {}    
-const urlRegex =/^https:\/\/.*\.jpg(?:\?.*)?$/i;
-const isValidUrl = urlRegex.test(dogData.image);
-
+   const errors = {}    
+   const urlRegex =/^(https?|ftp):\/\/(?:www\.)?[a-zA-Z0-9-]+(?:\.[a-zA-Z]{2,})+(?:\/\S*)?\.(jpg|jpeg|png|gif)(?:\?.*)?$/i;
+   const isValidUrl = urlRegex.test(dogData.image);
    if (!dogData.name) {
       errors.name = "Required field"
    }else if(dogData.name.length > 35) {
