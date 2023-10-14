@@ -29,7 +29,7 @@ const HomePage = () => {
 
 	const [currentPage, setCurrentPage] = useState(1);
 	const [dogPerPage] = useState(8);
-	
+
 	useEffect(() => {
 		dispatch(getDogBreeds())
 		dispatch(getAllTemperaments())
@@ -64,6 +64,8 @@ const HomePage = () => {
 		dispatch(filterCreate(false));
 		setCurrentPage(1);
 	}
+
+	
 
 
 	const handleSortBreed = (event) => {
@@ -121,7 +123,7 @@ const HomePage = () => {
 			/>
 		  </div>
 		);
-	  };
+	};
   
 	return (
 		<div> 

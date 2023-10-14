@@ -1,9 +1,10 @@
+//https://sequelize.org/docs/v6/core-concepts/model-querying-basics/
 const axios = require('axios');
 const { Dog , Temperament} = require('../db/DB_connection');
 const { Op } = require('sequelize');
 const {URL_BASE, API_KEY} = process.env;
 
-//Cambiar si  temperament
+
 const createDogBreedDB = async ({name, height, weight, life_span, image, temperaments})=>{
 
     // const apiResponse = await axios.get(`${URL_BASE}/search?q=${name}&api_key=${API_KEY}`);
@@ -28,6 +29,59 @@ const createDogBreedDB = async ({name, height, weight, life_span, image, tempera
     
     return dogCreated;
 }
+
+const dogBreedUpdateBD = async (id, { name, height, weight, life_span, image, temperaments }) => {
+    
+    const { data } = await axios.get(`${URL_BASE}/?api_key=${API_KEY}`);
+    const dogFilter = data.filter((dogBreed) =>
+        dogBreed.name.toLowerCase().includes(name.toLowerCase()) && dogBreed.id !== id
+    );
+    
+    if (dogFilter.length > 0) {
+        throw new Error('The breed already exists in the external API');
+    }
+    
+    
+    const existingDog = await Dog.findOne({ where: { name, id: { [Op.not]: id } } });
+    if (existingDog) {
+        throw new Error('The breed already exists in the database');
+    }
+    
+    
+    const [updatedRowCount] = await Dog.update(
+        { name, height, weight, life_span, image },
+        { where: { id } }
+    );
+
+    if (updatedRowCount === 0) {
+        throw new Error(`There is no dog with id ${id}`);
+    }
+
+    const updatedDog = await Dog.findByPk(id, {
+        include: [
+            { 
+                model: Temperament, 
+                attributes: ['id'],
+                through: { 
+                    attributes: [] 
+                } 
+            }
+        ]
+    });
+    
+    const idsTemperamentsToUpdate = await Temperament.findAll({
+        where: { name: temperaments },
+        attributes: ['id'],
+    });
+
+    return await updatedDog.setTemperaments(idsTemperamentsToUpdate);
+}
+
+
+
+
+
+
 
 
 const deleteDogBreedBD = async (id)=>{
@@ -86,8 +140,6 @@ const getAllDogBreedsBD = async() =>{
 
     return dogBreedsBD;
 }
-
-
 
 const getDogBreedByIdAPI = async(id) =>{
     const {data} = await axios.get(`${URL_BASE}/?api_key=${API_KEY}`);
@@ -211,6 +263,7 @@ const searchDogBreedsInDB = async(name) =>{
 
 module.exports = {
     createDogBreedDB,
+    dogBreedUpdateBD,
     deleteDogBreedBD,
     getDogBreedByIdAPI,
     getDogBreedByIdBD,

@@ -1,70 +1,72 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import clienteAxios from '../../config/clienteAxios';
+import { useDispatch, useSelector } from 'react-redux';
 import validation from '../../helpers/validation';
+import { useNavigate } from 'react-router-dom';
+import { editDogAction } from '../../redux/actions/dogActions';
 
 const EditDogForm = () => {
-  const { id } = useParams();
+  const navigate = useNavigate();
+  const dispatch = useDispatch ();
   const {temperaments} = useSelector((state) => state.temperamentReducers);
-  const [dogEdit, setDogEdit] = useState({});
-  const [input, setInput] = useState ({
-		name: '',
-		heightMin: '',
-		heightMax: '',
-		weightMin: '',
-		weightMax: '',
-		lifeSpanMin: '',
-		lifeSpanMax: '',
-		image: '',
-		temperaments: []
-	})
+  const { dogEdit } = useSelector(state => state.dogReducer);
+  console.log(dogEdit)
+  const [input, setInput] = useState({
+	id:'',
+    name: '',
+    heightMin: '',
+    heightMax: '',
+    weightMin: '',
+    weightMax: '',
+    lifeSpanMin: '',
+    lifeSpanMax: '',
+    image: '',
+    temperaments: []
+  });
 
-  const [errors, setErrors] = useState ({
-		name: '',
-		heightMin: '',
-		heightMax: '',
-		weightMin: '',
-		weightMax: '',
-		lifeSpanMin: '',
-		lifeSpanMax: '',
-		image: '',
-		temperaments:  '' 
-	})
+  const [errors, setErrors] = useState({
+    name: '',
+    heightMin: '',
+    heightMax: '',
+    weightMin: '',
+    weightMax: '',
+    lifeSpanMin: '',
+    lifeSpanMax: '',
+    image: '',
+    temperaments: ''
+  });
 
   const extractNumbers = (value) => value.split(/\D+/).map(part => part.trim());
 
-  const getDog = async(id) =>{
-    try {
-      const {data} = await clienteAxios.get(`dogs/${id}`)
-      setDogEdit(data)
-
-      const heightParts = extractNumbers(data.height) || [];
-      const weightParts = extractNumbers(data.weight) || [];
-      const lifeSpanParts = extractNumbers(data.life_span) || [];
-      setInput({
-        ...input ,
-          name : data?.name || '',
-          heightMin: heightParts[0] || '',
-          heightMax: heightParts[1] || '',
-          weightMin: weightParts[0] || '',
-          weightMax: weightParts[1] || '',
-          lifeSpanMin: lifeSpanParts[0] || '',
-          lifeSpanMax: lifeSpanParts[1] || '',
-          image: data?.image || '',
-          temperaments: data?.temperament.split(',').map(temp => temp.trim()),
-      })
-
-    } catch (error) {
-      console.log(error)
-    }
+  const getDog = (dog) => {
+	
+		const heightParts = extractNumbers(dogEdit.height) || [];
+		const weightParts = extractNumbers(dogEdit.weight) || [];
+		const lifeSpanParts = extractNumbers(dogEdit.life_span) || [];
+		setInput({
+			...input,
+			id: dogEdit.id || '',
+			name : dogEdit.name || '',
+			heightMin: heightParts[0] || '',
+			heightMax: heightParts[1] || '',
+			weightMin: weightParts[0] || '',
+			weightMax: weightParts[1] || '',
+			lifeSpanMin: lifeSpanParts[0] || '',
+			lifeSpanMax: lifeSpanParts[1] || '',
+			image: dogEdit.image || '',
+			temperaments: dogEdit.temperament.split(',').map(temp => temp.trim()),
+		})
+	
   }
 
-  useEffect(() => {
-    getDog(id)
-  }, [id]);
+  	useEffect(() => {
+		if (!dogEdit) {
+			navigate('/dogs/home');
+		} else {
+			getDog(dogEdit);
+		}
+  	}, [dogEdit, navigate]);
 
-  const handlerChange = (event) => {
+  	const handlerChange = (event) => {
 		event.preventDefault ();
 		setInput ( {
 			...input,
@@ -80,7 +82,7 @@ const EditDogForm = () => {
 	}
 
 
-  const handleSelect = (event) => {
+  	const handleSelect = (event) => {
 		const selectedTemperament = event.target.value;
 
 		    if(selectedTemperament === ""){
@@ -111,7 +113,7 @@ const EditDogForm = () => {
 	
 	};
 
-  const deleteTemperament = (temperamentToDelete) => {
+  	const deleteTemperament = (temperamentToDelete) => {
 		const filteredTemperaments = input.temperaments.filter((temperament) => temperament !== temperamentToDelete);
 		setInput({
 		  ...input,
@@ -125,7 +127,7 @@ const EditDogForm = () => {
 		document.getElementById('selectTemperaments').selectedIndex = 0;
 	};
 
-  const diseableHandler = () =>{
+  	const diseableHandler = () =>{
 		let diseable
 		for (let error in errors) {
 		 if(errors[error] === ""){
@@ -138,14 +140,28 @@ const EditDogForm = () => {
 		return diseable
 	}
 
-  const temperamentsOptions = temperaments.map((temperament) => (
+	const submitEditDog = event => {
+		event.preventDefault();
+			dispatch(editDogAction({
+				id:input.id,
+				name: input.name,
+				height: `${input.heightMin} - ${input.heightMax}`,
+				weight: `${input.weightMin} - ${input.weightMax}`,
+				life_span: `${input.lifeSpanMin} - ${input.lifeSpanMax} years`,
+				image: input.image,
+				temperaments: input.temperaments
+			})
+		);
+	}
+
+  	const temperamentsOptions = temperaments.map((temperament) => (
 		<option key={temperament.id} value={temperament.name}>{temperament.name}</option>
 	))
   return (
     <div>
       <div className="form-container">
-			<h2 className="form-title">Add New Dog Breed</h2>
-			<form className='form' >
+			<h2 className="form-title">Update Dog Breed</h2>
+			<form className='form' onSubmit={submitEditDog}>
 				<div className="form-group">
 					<label htmlFor="name">Name</label>
 					<input
@@ -281,7 +297,7 @@ const EditDogForm = () => {
 							id='selectTemperaments'
 							onChange={handleSelect}
 						>
-							<option value="">Elegir temperamento/s</option>
+							<option value=''>Choose temperament/s</option>
 							{temperamentsOptions}
 						</select>
 						<div className="error-message">

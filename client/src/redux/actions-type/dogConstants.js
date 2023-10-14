@@ -13,8 +13,7 @@ export const CLEAR_DETAIL = 'CLEAR_DETAIL';
 
 export const GET_PRODUCT_EDIT = 'GET_PRODUCT_EDIT'
 
-
-export const GET_DOG_EDIT = 'GET_DOG_EDIT';
+export const GET_DOG_EDIT = 'GET_DOG_EDIT'
 export const DOG_EDIT_REQUEST = 'DOG_EDIT_REQUEST';
 export const DOG_EDIT_SUCCESS = 'DOG_EDIT_SUCCESS';
 export const DOG_EDIT_FAIL = 'DOG_EDIT_FAIL';
@@ -35,6 +34,9 @@ export const ORDER_FOR_NAME_ZA = 'ORDER_FOR_NAME_ZA';
 export const FILTER_BY_TEMPERAMENT = 'ORDER_BY_TEMPERAMENT';
 export const FILTER_CREATE_BD_API= 'FILTER_CREATE_BD_API';
 export const RESET = 'RESET';
+
+
+export const FILTER_TEMPERAMENT = "FILTER_TEMPERAMENT";
 
 
 //--------------------------------------------------------------------

@@ -8,6 +8,11 @@ import {
     CREATE_DOG_REQUEST,
     CREATE_DOG_SUCCESS,
     CREATE_DOG_FAIL,
+
+    GET_DOG_EDIT,
+    DOG_EDIT_REQUEST,
+    DOG_EDIT_SUCCESS,
+    DOG_EDIT_FAIL,
     DOG_DELETE_REQUEST,
     DOG_DELETE_SUCCESS,
     DOG_DELETE_FAIL,
@@ -22,7 +27,7 @@ import {
     ORDER_FOR_NAME_AZ,
     ORDER_FOR_NAME_ZA,
     RESET,
-    GET_DOG_EDIT
+    FILTER_TEMPERAMENT
 } from "../actions-type/dogConstants"
 
 const initialState ={
@@ -32,7 +37,8 @@ const initialState ={
     dogsCopy: [],
     filteredDogs:[],
     dogBreedDetail:{},
-    dogBreed: {}
+    dogDelete: null,
+    dogEdit: null
 }
 
 const dogReducer = (state = initialState , action) => {
@@ -107,7 +113,7 @@ const dogReducer = (state = initialState , action) => {
             return{
                 ...state,
                 success: false,
-				loading: true,
+				loading: action.payload,
             };
         case CREATE_DOG_SUCCESS:
             return {
@@ -125,32 +131,48 @@ const dogReducer = (state = initialState , action) => {
                 error: action.payload,
             };
 
+       
+            return {
+                ...state,
+                dogEdit: action.payload
+            };
+        
         case GET_DOG_EDIT:
             return {
                 ...state,
                 dogEdit: action.payload
             };
-
+        case DOG_EDIT_SUCCESS:
+            if (!action.payload || !action.payload.id) {
+                return {
+                    ...state,
+                    dogEdit: null,
+                };
+            }
+            const editAllDogs = state.allDogs.map(dog => (dog.id === action.payload.id ? action.payload : dog));
+            const editDogsCopy = state.dogsCopy.map(dog => (dog.id === action.payload.id ? action.payload : dog));
+            return {
+                ...state,
+                dogEdit: null,
+                allDogs: editAllDogs,
+                dogsCopy: editDogsCopy
+            };
+        
         case DOG_DELETE_REQUEST:
            return {
             ...state,
-            loading: true
+            dogDelete: action.payload
            };
         case DOG_DELETE_SUCCESS:
-            const updatedDogs = state.allDogs.filter((dog) => dog.id !== action.payload);
-            const updatedDogsCopy = state.dogsCopy.filter((dog) => dog.id !== action.payload);
+            const updatedDogs = state.allDogs.filter((dog) => dog.id !== state.dogDelete);
+            const updatedDogsCopy = state.dogsCopy.filter((dog) => dog.id !== state.dogDelete);
             return {
                 ...state,
-                loading: false, 
                 allDogs: updatedDogs,
-                dogsCopy: updatedDogsCopy
+                dogsCopy: updatedDogsCopy,
+                dogDelete: null
             };
         case DOG_DELETE_FAIL:
-            return{
-                ...state,
-                loading: true,
-                error:action.payload,
-            };
         
         case FILTER_CREATE_BD_API:
             const allDogsFiltered = state.dogsCopy.filter((dog) =>dog.created === action.payload)
@@ -231,7 +253,11 @@ const dogReducer = (state = initialState , action) => {
                 allDogs: state.dogsCopy,
                 filteredDogs: state.dogsCopy
             };
-
+        case  FILTER_TEMPERAMENT:
+            return{
+                ...state,
+                filteredDogs: [...action.payload]
+            }
         default:
             return {...state}
     }

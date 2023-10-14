@@ -8,7 +8,11 @@ import {
     CREATE_DOG_REQUEST,
     CREATE_DOG_SUCCESS,
     CREATE_DOG_FAIL,
+
     GET_DOG_EDIT,
+    DOG_EDIT_REQUEST,
+    DOG_EDIT_SUCCESS,
+    DOG_EDIT_FAIL,
     DOG_DELETE_REQUEST,
     DOG_DELETE_SUCCESS,
     DOG_DELETE_FAIL,
@@ -24,6 +28,7 @@ import {
     ORDER_FOR_NAME_AZ,
     ORDER_FOR_NAME_ZA,
     RESET,
+    FILTER_TEMPERAMENT
 } from "../actions-type/dogConstants";
 import clienteAxios from "../../config/clienteAxios";
 
@@ -43,28 +48,52 @@ export const getDogBreeds = () => {
     }
 }
 
-export const createDogBreed = (dogBreed) =>{
+export const getTemperaments =  (value) =>{
     return async (dispatch) => {
         try {
-            dispatch({type: CREATE_DOG_REQUEST})
-            const { data } = await clienteAxios.post('/dogs', dogBreed)
-            return dispatch({
-                type: CREATE_DOG_SUCCESS,
+            const {data} = await clienteAxios.get(`/temperaments/${value}`)
+            return {
+                type:FILTER_TEMPERAMENT,
                 payload: data
-            })
+            }
         } catch (error) {
-            dispatch({ 
-                type: CREATE_DOG_FAIL, 
-                payload: error.response.data.error
-            })
+            
         }
     }
 }
 
+export const createDogBreed = (dogBreed) =>{
+    return async (dispatch) => {
+        try {
+            dispatch(addDog())
+            await clienteAxios.post('/dogs', dogBreed)
+            return dispatch(addDogSuccess(dogBreed))
+        } catch (error) {
+            dispatch(addDogError(error.response.data.error))
+        }
+    }
+}
+
+const addDog = () => ({
+    type: CREATE_DOG_REQUEST,
+    payload: true
+});
+
+const addDogSuccess = dog => ({
+    type: CREATE_DOG_SUCCESS,
+    payload: dog
+})
+
+const addDogError = error => ({
+    type: CREATE_DOG_FAIL,
+    payload: error
+});
+
+
 
 export function getDogEdit(dog) {
     return (dispatch) => {
-        dispatch( getDogEditAction(dog) )
+        dispatch(getDogEditAction(dog))
     }
 }
 
@@ -73,30 +102,58 @@ const getDogEditAction = dog => ({
     payload: dog
 })
 
-
-export const editDogAction = async(dog) =>{
+export function editDogAction(dog) {
+    
     return async (dispatch) => {
-
+        dispatch(editDog());
+        try {
+            const {data} = await clienteAxios.put(`/dogs/${dog.id}`, dog);    
+            dispatch(editDogSuccess(dog));
+        } catch (error) {
+            dispatch(editDogError());
+        }
     }
 }
+
+const editDog = () => ({
+    type: DOG_EDIT_SUCCESS
+});
+
+const editDogSuccess = dog => ({
+    type: DOG_DELETE_SUCCESS,
+    payload: dog
+});
+
+const editDogError = () => ({
+    type: DOG_DELETE_FAIL,
+    payload: true
+})
+
+
 export const removeDogBreed = (dogId) => {
     const endpoint = `http://localhost:3001/dogs/${dogId}`;
     return async (dispatch) => {
       try {
-        dispatch({type: DOG_DELETE_REQUEST})
+        dispatch(getDogDelete(dogId))
         await clienteAxios.delete(endpoint);
-        return dispatch({
-            type: DOG_DELETE_SUCCESS,
-            payload: dogId
-        });
+        return dispatch(removeDogSuccess());
       } catch (error) {
-        dispatch({
-            type: DOG_DELETE_FAIL, 
-            payload: error.response.data.error
-        })
+        dispatch(removeDogError())
       }
     };
 };
+
+const getDogDelete = id => ({
+    type: DOG_DELETE_REQUEST,
+    payload: id
+});
+const removeDogSuccess = () => ({
+    type: DOG_DELETE_SUCCESS
+})
+const removeDogError = () => ({
+    type: DOG_DELETE_FAIL,
+    payload: true
+});
 
 
 export const searchDogBreedByName = (name) => {

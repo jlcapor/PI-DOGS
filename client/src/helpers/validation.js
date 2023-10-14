@@ -4,9 +4,9 @@ const validation = (dogData) =>{
    const isValidUrl = urlRegex.test(dogData.image);
    if (!dogData.name) {
       errors.name = "Required field"
-   }else if(dogData.name.length > 35) {
+   }else if(dogData.name.length > 60) {
       errors.name = "The name must not exceed 35 characters"
-   }else if(!/^[a-zA-ZñÑ\s()]+$/u.test(dogData.name)){
+   }else if(!/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s()¡!@#$%^&*_\-+=?¿¡.,;:']+$/u.test(dogData.name)){
       errors.name = 'The text contains numbers or other unauthorized characters.'
    }
 

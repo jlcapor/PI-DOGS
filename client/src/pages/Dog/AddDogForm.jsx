@@ -136,7 +136,7 @@ const AddDogForm = () => {
 		event.preventDefault();
 		addDog({
 			name: input.name,
-			height: `${input.heightMin} - ${input.heightMax} cm`,
+			height: `${input.heightMin} - ${input.heightMax}`,
 			weight: `${input.weightMin} - ${input.weightMax}`,
 			life_span: `${input.lifeSpanMin} - ${input.lifeSpanMax} years`,
 			image: input.image,
@@ -304,7 +304,7 @@ const AddDogForm = () => {
 						id='selectTemperaments'
 						onChange={handleSelect}
 					>
-						<option value="">Elegir temperamento/s</option>
+						<option value=''>Choose temperament/s</option>
 								{temperamentsOptions}
 					</select>
 					<div className="error-message">

@@ -1,6 +1,7 @@
 const {
     getAllTemperaments,
-    createTemperament
+    createTemperament,
+    getTemperament
 } = require('../controllers/temperamentsController');
 
 const getAllTemperamentsHandler = async(req , res) =>{
@@ -12,6 +13,7 @@ const getAllTemperamentsHandler = async(req , res) =>{
         res.status(400).json({error: error.message})
     }
 }
+
 
 
 module.exports = {

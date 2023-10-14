@@ -29,7 +29,7 @@ const SearchBar = ({temperaments, onSearch, handleFilterTemperament}) => {
 		  </button>
 
 			<select  onChange={handleFilterTemperament} className="select-input">
-				<option value=''>Elegir temperamento/s</option>
+				<option value=''>Choose temperament/s</option>
 				{temperamentsOptions}
 			</select>
 		</div>

@@ -3,6 +3,7 @@ const {
     getAllDogBreedsHandler,
     getDogBreedDetailHandler,
     createDogBreedHandler,
+    putDogBreedHandler,
     deleteDogBreedHandler,
 } = require('../handlers/dogsHandler');
 
@@ -18,5 +19,6 @@ dogRouter
 .route('/:id')
 .get(getDogBreedDetailHandler)
 .delete(deleteDogBreedHandler)
+.put(putDogBreedHandler)
 
 module.exports = dogRouter;
